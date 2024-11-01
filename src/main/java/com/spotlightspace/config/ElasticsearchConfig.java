@@ -1,25 +1,20 @@
 package com.spotlightspace.config;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.elasticsearch.client.ClientConfiguration;
-import org.springframework.data.elasticsearch.client.RestClients;
-import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
+import org.springframework.data.elasticsearch.client.elc.ElasticsearchConfiguration;
 
 @Configuration
-public class ElasticsearchConfig {
+public class ElasticsearchConfig extends ElasticsearchConfiguration {
 
-    @Value("${elasticsearch.uris}")
-    private String elasticsearchUrl;
+    @Value("${spring.elasticsearch.uris}")
+    private String host;
 
-
-    @Bean
-    public ElasticsearchRestTemplate elasticsearchRestTemplate() {
-        ClientConfiguration clientConfiguration = ClientConfiguration.builder()
-                .connectedTo(elasticsearchUrl)
+    @Override
+    public ClientConfiguration clientConfiguration() {
+        return ClientConfiguration.builder()
+                .connectedTo(host)
                 .build();
-
-        return new ElasticsearchRestTemplate(RestClients.create(clientConfiguration).rest());
     }
 }

@@ -1,10 +1,8 @@
 package com.spotlightspace.core.event.domain;
 
-
+import com.spotlightspace.common.entity.Timestamped;
 import com.spotlightspace.core.event.dto.request.CreateEventRequestDto;
-import com.spotlightspace.core.user.domain.User;
-import jakarta.persistence.*;
-import lombok.Getter;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
@@ -12,41 +10,51 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.time.LocalDateTime;
 
 @Document(indexName = "events")
-@Getter
-public class EventElastic {
+public class EventElastic extends Timestamped {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Field(name = "event_id", type = FieldType.Long)
+    @Field(type = FieldType.Long, name = "event_id")
     private Long id;
+
     @Field(type = FieldType.Text)
     private String title;
+
     @Field(type = FieldType.Text)
     private String content;
+
     @Field(type = FieldType.Text)
     private String location;
-    @Field(name = "start_at", type = FieldType.Date)
+
+    // 시작 일시
+    @Field(type = FieldType.Date, name = "start_at")
     private LocalDateTime startAt;
-    @Field(name = "end_at", type = FieldType.Date)
+
+    // 종료 일시
+    @Field(type = FieldType.Date, name = "end_at")
     private LocalDateTime endAt;
-    @Field(name = "max_people", type = FieldType.Integer)
+
+    @Field(type = FieldType.Integer, name = "max_people")
     private int maxPeople;
+
     @Field(type = FieldType.Integer)
     private int price;
+
     @Field(type = FieldType.Text)
     private EventCategory category;
+
     @Field(type = FieldType.Date)
     private LocalDateTime recruitmentStartAt;
+
     @Field(type = FieldType.Date)
     private LocalDateTime recruitmentFinishAt;
+
     @Field(type = FieldType.Boolean)
     private boolean isDeleted = false;
+
     @Field(type = FieldType.Boolean)
     private boolean isCalculated = false;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
 
-    private EventElastic(CreateEventRequestDto createEventRequestDto, User user) {
+    private EventElastic(CreateEventRequestDto createEventRequestDto) {
         this.title = createEventRequestDto.getTitle();
         this.content = createEventRequestDto.getContent();
         this.location = createEventRequestDto.getLocation();
@@ -57,10 +65,9 @@ public class EventElastic {
         this.category = createEventRequestDto.getCategory();
         this.recruitmentStartAt = createEventRequestDto.getRecruitmentStartAt();
         this.recruitmentFinishAt = createEventRequestDto.getRecruitmentFinishAt();
-        this.user = user;
     }
 
-    public static EventElastic of(CreateEventRequestDto createEventRequestDto, User user) {
-        return new EventElastic(createEventRequestDto, user);
+    public static EventElastic of(CreateEventRequestDto createEventRequestDto) {
+        return new EventElastic(createEventRequestDto);
     }
 }

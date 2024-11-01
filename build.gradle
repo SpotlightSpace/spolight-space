@@ -86,7 +86,7 @@ dependencies {
     implementation("org.slf4j:slf4j-simple:1.7.36")
 
     // Elastic Search
-    implementation 'org.springframework.data:spring-data-elasticsearch:4.4.16'
+    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
 }
 
 tasks.named('test') {

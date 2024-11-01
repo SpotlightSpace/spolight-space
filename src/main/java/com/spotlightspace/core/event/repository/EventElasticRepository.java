@@ -2,6 +2,8 @@ package com.spotlightspace.core.event.repository;
 
 import com.spotlightspace.core.event.domain.EventElastic;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+import org.springframework.stereotype.Repository;
 
-public interface EventElasticRepository extends ElasticsearchRepository<EventElastic, Long>, EventElasticQueryRepository {
+@Repository
+public interface EventElasticRepository extends ElasticsearchRepository<EventElastic, Long> {
 }
