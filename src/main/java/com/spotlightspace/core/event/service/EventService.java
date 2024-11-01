@@ -9,8 +9,10 @@ import com.spotlightspace.core.event.dto.request.CreateEventRequestDto;
 import com.spotlightspace.core.event.dto.request.SearchEventRequestDto;
 import com.spotlightspace.core.event.dto.request.UpdateEventRequestDto;
 import com.spotlightspace.core.event.dto.response.CreateEventResponseDto;
+import com.spotlightspace.core.event.dto.response.GetEventElasticResponseDto;
 import com.spotlightspace.core.event.dto.response.GetEventResponseDto;
 import com.spotlightspace.core.event.dto.response.UpdateEventResponseDto;
+import com.spotlightspace.core.event.repository.EventElasticRepository;
 import com.spotlightspace.core.event.repository.EventRepository;
 import com.spotlightspace.core.eventticketstock.domain.EventTicketStock;
 import com.spotlightspace.core.payment.service.PaymentService;
@@ -40,6 +42,7 @@ import static com.spotlightspace.common.exception.ErrorCode.*;
 public class EventService {
 
     private final EventRepository eventRepository;
+    private final EventElasticRepository eventElasticRepository;
     private final UserRepository userRepository;
     private final AttachmentService attachmentService;
     private final PaymentService paymentService;
@@ -134,6 +137,15 @@ public class EventService {
         Pageable pageable = PageRequest.of(page - 1, size);
 
         Page<GetEventResponseDto> events = eventRepository.searchEvents(searchEventRequestDto, type, pageable);
+        return events;
+    }
+
+    public Page<GetEventElasticResponseDto> getEventsElastic(
+            int page, int size, SearchEventRequestDto searchEventRequestDto, String type) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+
+        Page<GetEventElasticResponseDto> events =
+                eventElasticRepository.searchElasticEvents(searchEventRequestDto, type, pageable);
         return events;
     }
 
