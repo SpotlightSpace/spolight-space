@@ -69,17 +69,17 @@ public class Event extends Timestamped {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    private Event(CreateEventRequestDto addEventRequestDto, User user) {
-        this.title = addEventRequestDto.getTitle();
-        this.content = addEventRequestDto.getContent();
-        this.location = addEventRequestDto.getLocation();
-        this.startAt = addEventRequestDto.getStartAt();
-        this.endAt = addEventRequestDto.getEndAt();
-        this.maxPeople = addEventRequestDto.getMaxPeople();
-        this.price = addEventRequestDto.getPrice();
-        this.category = addEventRequestDto.getCategory();
-        this.recruitmentStartAt = addEventRequestDto.getRecruitmentStartAt();
-        this.recruitmentFinishAt = addEventRequestDto.getRecruitmentFinishAt();
+    private Event(CreateEventRequestDto createEventRequestDto, User user) {
+        this.title = createEventRequestDto.getTitle();
+        this.content = createEventRequestDto.getContent();
+        this.location = createEventRequestDto.getLocation();
+        this.startAt = createEventRequestDto.getStartAt();
+        this.endAt = createEventRequestDto.getEndAt();
+        this.maxPeople = createEventRequestDto.getMaxPeople();
+        this.price = createEventRequestDto.getPrice();
+        this.category = createEventRequestDto.getCategory();
+        this.recruitmentStartAt = createEventRequestDto.getRecruitmentStartAt();
+        this.recruitmentFinishAt = createEventRequestDto.getRecruitmentFinishAt();
         this.user = user;
     }
 

@@ -9,10 +9,13 @@ import com.spotlightspace.core.event.dto.request.CreateEventRequestDto;
 import com.spotlightspace.core.event.dto.request.SearchEventRequestDto;
 import com.spotlightspace.core.event.dto.request.UpdateEventRequestDto;
 import com.spotlightspace.core.event.dto.response.CreateEventResponseDto;
+import com.spotlightspace.core.event.dto.response.GetEventElasticResponseDto;
 import com.spotlightspace.core.event.dto.response.GetEventResponseDto;
 import com.spotlightspace.core.event.dto.response.UpdateEventResponseDto;
+import com.spotlightspace.core.event.repository.EventElasticRepository;
 import com.spotlightspace.core.event.repository.EventRepository;
 import com.spotlightspace.core.eventticketstock.domain.EventTicketStock;
+import com.spotlightspace.core.payment.service.PaymentService;
 import com.spotlightspace.core.ticket.repository.TicketRepository;
 import com.spotlightspace.core.eventticketstock.repository.EventTicketStockRepository;
 import com.spotlightspace.core.user.domain.User;
@@ -27,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.spotlightspace.common.exception.ErrorCode.*;
@@ -38,8 +42,10 @@ import static com.spotlightspace.common.exception.ErrorCode.*;
 public class EventService {
 
     private final EventRepository eventRepository;
+    private final EventElasticRepository eventElasticRepository;
     private final UserRepository userRepository;
     private final AttachmentService attachmentService;
+    private final PaymentService paymentService;
     private final TicketRepository ticketRepository;
     private final EventTicketStockRepository eventTicketStockRepository;
 
@@ -115,6 +121,9 @@ public class EventService {
         // 이벤트를 작성한 아티스트인가 검사
         checkEventAndUser(event, authUser);
         // 삭제 진행 시 결제한 사람 (포인트, 쿠폰)환불처리
+        if (LocalDateTime.now().isBefore(event.getStartAt())) {
+            paymentService.cancelPayments(event);
+        }
         attachmentService.deleteAttachmentWithOtherTable(event.getId(), TableRole.EVENT);
         event.deleteEvent();
     }
@@ -128,6 +137,15 @@ public class EventService {
         Pageable pageable = PageRequest.of(page - 1, size);
 
         Page<GetEventResponseDto> events = eventRepository.searchEvents(searchEventRequestDto, type, pageable);
+        return events;
+    }
+
+    public Page<GetEventElasticResponseDto> getEventsElastic(
+            int page, int size, SearchEventRequestDto searchEventRequestDto, String type) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+
+        Page<GetEventElasticResponseDto> events =
+                eventElasticRepository.searchElasticEvents(searchEventRequestDto, type, pageable);
         return events;
     }
 
