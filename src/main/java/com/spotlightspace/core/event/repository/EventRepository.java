@@ -6,7 +6,9 @@ import com.spotlightspace.common.exception.ApplicationException;
 import com.spotlightspace.core.event.domain.Event;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface EventRepository extends JpaRepository<Event, Long>, EventQueryRepository {
 
     Optional<Event> findByIdAndUserIdAndIsDeletedFalse(Long id, Long userId);
