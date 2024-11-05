@@ -154,14 +154,16 @@ public class EventService {
         return GetEventResponseDto.from(event);
     }
 
-    public Page<GetEventResponseDto> getEvents(int page, int size, SearchEventRequestDto searchEventRequestDto, String type) {
+    public Page<GetEventResponseDto> getEvents(
+            int page, int size, SearchEventRequestDto searchEventRequestDto, String type) {
         Pageable pageable = PageRequest.of(page - 1, size);
 
         Page<GetEventResponseDto> events = eventRepository.searchEvents(searchEventRequestDto, type, pageable);
         return events;
     }
 
-    public Page<GetEventElasticResponseDto> getElasticEvents(int page, int size, SearchEventRequestDto requestDto, String type) throws IOException {
+    public Page<GetEventElasticResponseDto> getElasticEvents(
+            int page, int size, SearchEventRequestDto requestDto, String type) throws IOException {
         Pageable pageable = PageRequest.of(page - 1, size);
 
         Page<GetEventElasticResponseDto> events = eventElasticRepository.searchElasticEvents(requestDto, type, pageable);
