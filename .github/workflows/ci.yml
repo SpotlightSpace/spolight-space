@@ -64,5 +64,5 @@ jobs:
           SPRING_MAIL_PORT: ${{ secrets.SPRING_MAIL_PORT }}
           REDIS_HOST: ${{ secrets.REDIS_HOST }}
           REDIS_PORT: ${{ secrets.REDIS_PORT }}
-          ELASTIC_URL: ${{ secrets.ELASTIC_URL }}
+          ELASTIC_URL: localhost:9200
         run: ./gradlew test -Dspring.profiles.active=test
