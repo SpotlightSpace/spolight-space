@@ -43,6 +43,7 @@ spring:
   elasticsearch:
     uris: ${ELASTIC_URL}
 
+
 cloud:
   aws:
     s3:
