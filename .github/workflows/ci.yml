@@ -25,13 +25,6 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '17'
-          
-      - name: Wait for Elasticsearch
-        run: |
-          until curl -s http://localhost:9200 -o /dev/null; do
-            echo "Waiting for Elasticsearch...";
-            sleep 5;
-          done
 
       - name: Clean generated sources
         run: rm -rf src/main/generated
