@@ -135,7 +135,7 @@ public class EventController {
      * @param category
      * @param recruitmentStartAt
      * @param recruitmentFinishAt
-     * @param type
+     * @param type  아무값도 없으면 수정 날짜로 desc, upprice, downprice, date값을 넣으면 각각에 맞는 정렬이 수행
      * @return
      * @throws IOException
      */
