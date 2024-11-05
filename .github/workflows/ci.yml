@@ -33,8 +33,8 @@ jobs:
         env:
           SPRING_PROFILES_ACTIVE: test
           JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
-          spring_mail_username: ${{ secrets.SPRING_MAIL_USERNAME }}
-          spring_mail_password: ${{ secrets.SPRING_MAIL_PASSWORD }}
+          SPRING_MAIL_USERNAME: ${{ secrets.SPRING_MAIL_USERNAME }}
+          SPRING_MAIL_PASSWORD: ${{ secrets.SPRING_MAIL_PASSWORD }}
           S3_BUCKET: ${{ secrets.S3_BUCKET }}
           S3_PUBLIC: ${{ secrets.S3_PUBLIC }}
           S3_SECRET: ${{ secrets.S3_SECRET }}
@@ -48,5 +48,9 @@ jobs:
           NAVER_CLIENT_SECRET_KEY: ${{ secrets.NAVER_CLIENT_SECRET_KEY }}
           SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
           ELASTIC_URL: ${{ secrets.ELASTIC_URL }}
+          SPRING_MAIL_HOST: ${{ secrets.SPRING_MAIL_HOST }}
+          SPRING_MAIL_PORT: ${{ secrets.SPRING_MAIL_PORT }}
+          REDIS_HOST: ${{ secrets.REDIS_HOST }}
+          REDIS_PORT: ${{ secrets.REDIS_PORT }}
         run: ./gradlew test -Dspring.profiles.active=test
 
