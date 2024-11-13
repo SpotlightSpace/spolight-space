@@ -38,6 +38,9 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
+      - name: Copy elastic-settings.json
+        run: mkdir -p ./static/elastic && cp src/main/resources/static/elastic/elastic-settings.json ./static/elastic/elastic-settings.json
+
       - name: Build project
         run: ./gradlew build -x test
 
