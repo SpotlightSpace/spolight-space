@@ -9,11 +9,13 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.elasticsearch.annotations.Setting;
 
 import java.time.LocalDateTime;
 
 @Document(indexName = "events")
 @Getter
+@Setting(settingPath = "/static/elastic/elastic-settings.json")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class EventElastic {
     @Id
