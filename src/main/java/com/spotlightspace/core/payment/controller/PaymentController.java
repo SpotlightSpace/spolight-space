@@ -21,12 +21,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @Validated
 @RestController
+@RequestMapping("/api/v1")
 public class PaymentController {
 
     public static final int FIFTEEN_MINUTES = 60 * 15;
@@ -49,7 +51,7 @@ public class PaymentController {
      * @param authUser   로그인한 유저 정보를 받아옵니다.
      * @return
      */
-    @PostMapping("/api/v1/payments/ready")
+    @PostMapping("/payments/ready")
     public ResponseEntity<KakaopayPaymentResponseDto> readyPayment(
             HttpSession session,
             @RequestBody ReadyPaymentRequestDto requestDto,
@@ -75,7 +77,7 @@ public class PaymentController {
      * @param pgToken 결제승인 요청을 인증하는 토큰입니다.
      * @return
      */
-    @GetMapping("/api/v1/payments/approve")
+    @GetMapping("/payments/approve")
     public ResponseEntity<KakaopayPaymentResponseDto> approvePayment(
             HttpSession session,
             @RequestParam("pg_token") String pgToken
@@ -95,7 +97,7 @@ public class PaymentController {
      * @param requestDto 결제 취소 요청을 위한 Dto입니다.
      * @return
      */
-    @PatchMapping("/api/v1/payments/cancel")
+    @PatchMapping("/payments/cancel")
     public ResponseEntity<KakaopayPaymentResponseDto> cancelPayment(@RequestBody CancelPaymentRequestDto requestDto) {
         KakaopayPaymentResponseDto responseDto = paymentServiceFacade.cancelPayment(requestDto.getTid());
 
@@ -110,7 +112,7 @@ public class PaymentController {
      * @param pageSize 결제 내역의 페이지 크기입니다.
      * @return
      */
-    @GetMapping("/api/v1/payments")
+    @GetMapping("/payments")
     public ResponseEntity<Page<PaymentResponseDto>> getPayments(
             @RequestParam(value = "userId") long userId,
             @Positive @RequestParam(defaultValue = "1") int pageNumber,
